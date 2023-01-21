@@ -4,17 +4,16 @@ import replicate
 def getVersion():
     model = replicate.models.get("cjwbw/prompt-to-prompt")
     version = model.versions.get("77f9e56f3c0eb7e635d0197e192980173a48f414499ed07bbc80d5807bdb6191")
+    return version
 
-
-
-def getOriginalOutput(original_prompt):
+def getOriginalOutput(version , original_prompt):
     inputs = {'original_prompt': original_prompt,}
 
     original_output = version.predict(**inputs)
     print("Original output: ",original_output)
     return original_output
 
-def getEditedOutput(original_prompt, edited_prompt, prompt_edit_type, cross_replace_steps, self_replace_steps, seed):
+def getEditedOutput(version, original_prompt, edited_prompt, prompt_edit_type, cross_replace_steps, self_replace_steps, seed):
     inputs = {
 
     'original_prompt': original_prompt,

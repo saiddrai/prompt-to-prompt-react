@@ -9,7 +9,7 @@ app.config['SERVER_NAME'] = f'localhost:{PORT}'
 app.run()
 
 
-getVersion()
+version = getVersion()
 
 # routes
 
@@ -17,7 +17,7 @@ getVersion()
 def predict():
     data = request.get_json()
     original_prompt = data['original_prompt']
-    output = getOriginalOutput(original_prompt)
+    output = getOriginalOutput(version , original_prompt)
     print(output)
     return jsonify(output)
 
@@ -26,7 +26,7 @@ def edit():
     data = request.get_json()
     edit_prompt = data['edit_prompt']
     edit_type = data['edit_type']
-    output = getEditedOutput(edit_prompt, edit_type)
+    output = getEditedOutput(version, edit_prompt, edit_type)
     return jsonify(output)
 
 
