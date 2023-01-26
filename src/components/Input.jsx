@@ -1,58 +1,41 @@
 import React, { useState } from "react";
 
-function Input({ txt, setText }) {
-  const [data, setData] = useState(null);
-  const [img, setImg] = useState("");
-  const [type, setType] = useState("");
-
-  function onFileChange(e) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setData(e.target.result);
-    };
-    reader.readAsArrayBuffer(e.target.files[0]);
-  }
-
-  async function onClick() {
-    try {
-      const resp = await fetch("http://localhost:5000/initial", {
-        method: "POST",
-        body: data,
-      });
-
-      if (!resp.ok) {
-        setText(resp.statusText);
-        return;
-      }
-
-      if (resp.headers.get("content-type")?.includes("image")) {
-        const blob = await resp.blob();
-        setImg(URL.createObjectURL(blob));
-      } else {
-        const json = await resp.json();
-        setText(JSON.stringify(json, null, 2));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
+function Input({ onSubmit }) {
+  const [input, setInput] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(input);
+  };
   return (
-    <div className="input-box">
-      <form>
-        <input type="file" onChange={(e) => onFileChange(e)} />
-        {!data ? (
-          <button type="button" disabled>
-            Upload
+    <div className="flex flex-col items-center space-y-4 ">
+      {/* <input
+        type="text"
+        className="  outline-none opacity-90 placeholder-white placeholder-opacity-60 rounded-2xl h-16 bg-secondary border-b-2 border-primary w-96 text-2xl   text-center text-white"
+        placeholder="ex: A cat riding a bike"
+      />
+      <button
+        className="bg-primary text-white text-2xl rounded-2xl h-14 w-32 mb-10"
+        onClick={() => setText(txt)}
+      >
+        Generate
+      </button> */}
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col items-center space-y-4 ">
+          <input
+            className="outline-none opacity-90 placeholder-white placeholder-opacity-60 rounded-2xl h-16 bg-secondary border-b-2 border-primary w-96 text-2xl   text-center text-white"
+            type="text"
+            placeholder="ex: A cat riding a bike"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button
+            className="bg-primary text-white text-2xl rounded-2xl h-14 w-32 mb-10"
+            type="submit"
+          >
+            Generate
           </button>
-        ) : (
-          <button type="button" onClick={() => onClick()}>
-            Upload
-          </button>
-        )}
+        </div>
       </form>
-      <img src={img} alt="" />
-      <pre>{txt}</pre>
     </div>
   );
 }
