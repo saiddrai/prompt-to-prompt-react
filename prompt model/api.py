@@ -2,9 +2,11 @@ from flask import Flask, request, jsonify
 from os import environ
 PORT = environ.get('PORT', 5000)
 from model import  getOriginalOutput, getEditedOutput
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 
@@ -12,9 +14,8 @@ app = Flask(__name__)
 
 @app.route('/original', methods=['GET'])
 def predict():
-    data = request.get_json()
     print("start")
-    original_prompt = data['original_prompt']
+    original_prompt = request.args.get('original_prompt')
     print(original_prompt)
     output = getOriginalOutput(original_prompt)
     print(output)

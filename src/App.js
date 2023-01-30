@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import ImageResult from "./components/ImageResult";
 import Input from "./components/Input";
 import Loading from "./components/Loading";
 import Navbar from "./components/Navbar";
@@ -7,14 +8,18 @@ import Output from "./components/Output";
 import fetchApi from "./fetchApi";
 
 function App() {
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageArrived, setImageArrived] = useState(false);
 
   const generateImage = async (input) => {
     setLoading(true);
+    console.log("loading");
     const imageData = await fetchApi(input);
-    setImageUrl(imageData.url);
+    setImageUrl(imageData.original_sd);
+    console.log(imageData.original_sd);
     setLoading(false);
+    setImageArrived(true);
   };
   return (
     <div className="">
@@ -26,6 +31,7 @@ function App() {
 
         <Input onSubmit={generateImage} />
         {loading && <Loading />}
+        {imageArrived && <ImageResult imageUrl={imageUrl} />}
       </div>{" "}
     </div>
   );
