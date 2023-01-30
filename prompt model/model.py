@@ -6,44 +6,26 @@ def getVersion():
     version = model.versions.get("77f9e56f3c0eb7e635d0197e192980173a48f414499ed07bbc80d5807bdb6191")
     return version
 
-def getOriginalOutput(version , original_prompt):
+def getOriginalOutput( original_prompt):
     inputs = {'original_prompt': original_prompt,}
+    version = getVersion()
 
     original_output = version.predict(**inputs)
-    print("Original output: ",original_output)
+    print("Original output: ","a cat riding a bike")
     return original_output
 
-def getEditedOutput(version, original_prompt, edited_prompt, prompt_edit_type, cross_replace_steps, self_replace_steps, seed):
+
+
+
+
+def getEditedOutput(original_prompt, edit_prompt, edit_type="Replacement", cross_replace_steps=0.8, self_replace_steps=0.4, seed=8888):
+    version = getVersion()
     inputs = {
-
     'original_prompt': original_prompt,
-
-
-    'prompt_edit_type': prompt_edit_type,
-
-    # Prompted used for editing the original sd output image. If
-    # prompt_edit_type above is not set, then this field will be ignored.
-    # See below for more information for how to edit the prompt from the
-    # original prompt. For Re-weight, just provided words in
-    # proginal_prompt with new weights.
-    'edited_prompt':edited_prompt,
-
-    # Enable local editing. Provide the in the format of
-    # 'words_in_original_prompt | words_in_edited_prompt', and the rest
-    # content will be preserved.
-    # 'local_edit': ...,
-
-    # Cross attention replace steps
-    # Range: 0 to 1
+    'prompt_edit_type': edit_type,
+    'edited_prompt':edit_prompt,
     'cross_replace_steps': cross_replace_steps,
-
-    # Self attention replace steps
-    # Range: 0 to 1
     'self_replace_steps': self_replace_steps,
-
-    # Random seed. Leave blank to randomize the seed for original output.
-    # But make sure to use the same seed for original-updated
-    # prompt pair.
     'seed':
     seed,
     }
@@ -51,8 +33,3 @@ def getEditedOutput(version, original_prompt, edited_prompt, prompt_edit_type, c
     edited_output = version.predict(**inputs)
     print("Edited output: ",edited_output)
     return edited_output
-
-
-
-
-
