@@ -24,10 +24,12 @@ def predict():
 
 @app.route('/edit', methods=['GET'])
 def edit():
-    data = request.get_json()
-    inputs = {'original_prompt': data['original_prompt'],
-    'edit_prompt' : data['edit_prompt'],
-    'edit_type' : data['edit_type']
+    print("start")
+    original_prompt = request.args.get('original_prompt')
+    edit_prompt = request.args.get('edit_prompt')
+    inputs = {'original_prompt': original_prompt,
+    'edit_prompt' : edit_prompt,
+    'edit_type' : "Replacement",
               }
     output = getEditedOutput( **inputs)
     return jsonify(output)

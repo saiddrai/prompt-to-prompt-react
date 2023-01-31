@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 
-function Input({ onSubmit }) {
+function Input({ onSubmit, edit, original_prompt }) {
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(input);
-    onSubmit(input);
+    if (edit) {
+      e.preventDefault();
+      console.log(input);
+      onSubmit(input, edit, original_prompt);
+    } else {
+      e.preventDefault();
+      console.log(input);
+      onSubmit(input);
+    }
   };
   return (
-    <div className="flex flex-col items-center space-y-4 ">
+    <div className="flex flex-col items-center space-y-4  ">
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col items-center space-y-4 ">
           <input

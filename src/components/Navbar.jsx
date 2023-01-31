@@ -2,15 +2,27 @@ import React from "react";
 
 function Navbar() {
   return (
-    <div className="flex justify-end pr-10 px-4 w-screen">
+    <div className="flex justify-end w-screen fixed pr-10 py-4 ">
       <button className="bg-transparent px-4 py-2 m-2 text-white text-lg ">
-        <a href="http://localhost:3000/">docs</a>
+        <a
+          href="https://paperswithcode.com/paper/prompt-to-prompt-image-editing-with-cross"
+          target="_blank"
+        >
+          docs
+        </a>
       </button>
       <button className="bg-transparent px-4 py-2 m-2 text-white text-lg ">
-        <a href="http://localhost:3000/input">Github</a>
+        <a href="http://github.com/google/prompt-to-prompt/" target="_blank">
+          Github
+        </a>
       </button>
       <button className="bg-transparent px-4 py-2 m-2 text-white text-lg ">
-        <a href="http://localhost:3000/output">examples</a>
+        <a
+          href="https://replicate.com/cjwbw/prompt-to-prompt/examples"
+          target="_blank"
+        >
+          examples
+        </a>
       </button>
     </div>
   );
